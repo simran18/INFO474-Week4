@@ -110,10 +110,11 @@
     // get population data as array
     let pop_data = fData.map((row) => +row["pop_mlns"]);
     let pop_limits = d3.extent(pop_data);
+
     // make size scaling function for population
     let pop_map_func = d3.scaleLinear()
       .domain([pop_limits[0], pop_limits[1]])
-      .range([3, 20]);
+      .range([0, 50]);
 
     // mapping functions
     let xMap = map.x;
@@ -132,15 +133,15 @@
       .attr('cx', xMap)
       .attr('cy', yMap)
       .attr('r', (d) => pop_map_func(d["pop_mlns"]))
-      .attr('fill', "#4286f4")
+      .attr('fill', "#4286f2")
       // add tooltip functionality to points
       .on("mouseover", (d) => {
         div.transition()
           .duration(200)
           .style("opacity", .9);
         div.html(d.location + "<br/>" + numberWithCommas(d["pop_mlns"] * 1000000))
-          .style("left", (d3.event.pageX) + "px")
-          .style("top", (d3.event.pageY - 28) + "px");
+          .style("left", (xMap) + "px")
+          .style("top", (yMap) + "px");
       })
       .on("mouseout", (d) => {
         div.transition()
